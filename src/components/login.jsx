@@ -21,7 +21,7 @@ const Login = () =>{
         e.preventDefault();
     
         try {
-          const response = await fetch("http://localhost:8000/index.php", {
+          const response = await fetch("https://chatapp-server-ghz3.onrender.com/index.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),

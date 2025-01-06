@@ -12,7 +12,7 @@ const Main = () =>{
     const handleSubmit = async (e) =>{
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:8000/addfriends.php", {
+            const response = await fetch("https://chatapp-server-ghz3.onrender.com/addfriends.php", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({friendEmail: friendEmail,userId: user.id}),
@@ -34,7 +34,7 @@ const Main = () =>{
     }
     async function fetchFriends() {
         try {
-          const response = await fetch("http://localhost:8000/getfriends.php", {
+          const response = await fetch("https://chatapp-server-ghz3.onrender.com/getfriends.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId: user.id }),
@@ -48,7 +48,7 @@ const Main = () =>{
     const fetchMessages = async (friendshipId) => {
         try {  
 
-          const response = await fetch("http://localhost:8000/getmessages.php", {
+          const response = await fetch("https://chatapp-server-ghz3.onrender.com/getmessages.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ chatId: friendshipId }),
@@ -77,7 +77,7 @@ const Main = () =>{
     const sendMessage = async () =>{
         const chatId = localStorage.getItem('chatId');
         try {  
-            const response = await fetch("http://localhost:8000/sendmessage.php", {
+            const response = await fetch("https://chatapp-server-ghz3.onrender.com/sendmessage.php", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ messageToSend: typingMessage, chatId: chatId, senderId: user.id }),

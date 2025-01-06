@@ -7,7 +7,7 @@ const Chatline = (props) =>{
     } 
     const handleDelete = async () =>{
         try{
-            const response = await fetch("http://localhost:8000/deletefriendship.php", {
+            const response = await fetch("https://chatapp-server-ghz3.onrender.com/deletefriendship.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({friendshipId : friendshipId}),
