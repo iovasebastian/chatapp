@@ -10,6 +10,7 @@ const Main = () =>{
     const [chatselected, setChatSelected] = useState(false);
     const [messages, setMessages] = useState([]);
     const [typingMessage, setTypingMessage] = useState("");
+    const inputRef = useRef(null);
     const handleSubmit = async (e) =>{
         e.preventDefault();
         try {
@@ -72,15 +73,16 @@ const Main = () =>{
         }
       };
 
-    const sendMessage = async () =>{
-        const chatId = localStorage.getItem('chatId');
-        try {  
+const sendMessage = async () =>{
+    const chatId = localStorage.getItem('chatId');
+        try {   
+          if(typingMessage.trim()){  
             const response = await fetch("https://chatapp-server-ghz3.onrender.com/sendmessage.php", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ messageToSend: typingMessage, chatId: chatId, senderId: user.id }),
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messageToSend: typingMessage, chatId: chatId, senderId: user.id }),
             });
-        
+          
             const data = await response.json();
             if (data.status === "success") {
               fetchMessages(chatId);
@@ -89,34 +91,44 @@ const Main = () =>{
             } else {
               console.error("Error from server:", data.message);
             }
-          } catch (error) {
-            console.error("Error sending message:",typingMessage,user.id, error);
           }
-    }
-    const scrollToBottom = () => {
-      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-  const setId = (friendshipId) =>{
+        } catch (error) {
+        console.error("Error sending message:",typingMessage,user.id, error);
+        }
+}
+const scrollToBottom = () => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+};
+const setId = (friendshipId) =>{
     localStorage.setItem('chatId', friendshipId);
+}
+const handleKeyDown = (e) => {
+  if (e.key === "Enter") { // Check if the pressed key is "Enter"
+      e.preventDefault(); // Prevent the default behavior of Enter (form submission)
+      sendMessage();
   }
-    useEffect(() => {
-      scrollToBottom();
-  }, [messages]);
-    useEffect(() => {
-        fetchFriends();
-    },[]);
-    useEffect(() => {
-      localStorage.setItem('chatId', undefined);
-    },[]);
-    useEffect(() => {
-      const interval = setInterval(() => {
-        const chatIdForFetch = localStorage.getItem('chatId');
-        fetchMessages(chatIdForFetch);
-      }, 3000); // Fetch every 3 seconds
-
-      // Cleanup interval on component unmount
-      return () => clearInterval(interval);
-    }, []);
+};
+useEffect(() => {
+    scrollToBottom();
+}, [messages]);
+useEffect(() => {
+    fetchFriends();
+},[]);
+useEffect(() => {
+    localStorage.setItem('chatId', undefined);
+},[]);
+useEffect(() => {
+  if (chatselected && inputRef.current) {
+    inputRef.current.focus(); // Focus on the input field when chatselected is true
+  }
+}, [chatselected]);
+useEffect(() => {
+    const interval = setInterval(() => {
+    const chatIdForFetch = localStorage.getItem('chatId');
+    fetchMessages(chatIdForFetch);
+    }, 3000); // Fetch every 3 seconds
+    return () => clearInterval(interval);
+}, []);
     return(
         <div className="divGeneralMain">
             <div className="divCentralMain">
@@ -155,7 +167,7 @@ const Main = () =>{
                         <div ref={messageEndRef} />
                     </div>
                     {chatselected&&<div className="messageInputDiv">
-                        <input className = "inputMessage" value = {typingMessage} type = "text" placeholder='Message...' onChange={(e) => setTypingMessage(e.target.value)}/>
+                        <input className = "inputMessage" ref = {inputRef} value = {typingMessage} type = "text" placeholder='Message...' onChange={(e) => setTypingMessage(e.target.value)} onKeyDown={handleKeyDown}/>
                         <button className= "buttonSend" onClick={sendMessage}>Send</button>
                     </div>}
                 </div>
