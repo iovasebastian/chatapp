@@ -3,8 +3,8 @@ import Message from './message';
 import Chatline from './chatline';
 import { useEffect, useState, useRef } from 'react';
 const Main = () =>{
-  const messageEndRef = useRef(null);
-    const chatId = localStorage.getItem('chatId');
+    const messageEndRef = useRef(null);
+    const [chatIdForFetch, setChatIdForFetch] = useState();
     const user = JSON.parse(localStorage.getItem("user"));
     const [friendEmail, setFriendEmail] = useState("");
     const [friends, setFriends] = useState([]);
@@ -63,7 +63,8 @@ const Main = () =>{
           const data = await response.json();
       
           if (data.status === "success") {
-            setChatSelected(true);
+            setChatSelected(true);  
+            setChatIdForFetch(friendshipId);
             setMessages(data.messages || []); // Update messages
             console.log('DATEEE',data.messages)
           } else {
@@ -109,11 +110,10 @@ const Main = () =>{
       //  fetchMessages();
     //},[chatId]);
     useEffect(() => {
-      
-      fetchMessages(chatId); // Fetch messages initially
+      fetchMessages(chatIdForFetch); // Fetch messages initially
       const interval = setInterval(fetchMessages, 3000); // Fetch every 3 seconds
       return () => clearInterval(interval); // Cleanup on unmount
-  }, [chatId]); // Re-run if chatId changes
+  }, [chatIdForFetch]); // Re-run if chatId changes
     return(
         <div className="divGeneralMain">
             <div className="divCentralMain">
