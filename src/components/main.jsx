@@ -4,7 +4,6 @@ import Chatline from './chatline';
 import { useEffect, useState, useRef } from 'react';
 const Main = () =>{
     const messageEndRef = useRef(null);
-    const [chatIdForFetch, setChatIdForFetch] = useState();
     const user = JSON.parse(localStorage.getItem("user"));
     const [friendEmail, setFriendEmail] = useState("");
     const [friends, setFriends] = useState([]);
@@ -49,29 +48,25 @@ const Main = () =>{
     }
     const fetchMessages = async (friendshipId) => {
         try {  
-
-          const response = await fetch("https://chatapp-server-ghz3.onrender.com/getmessages.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ chatId: friendshipId }),
-          });
-      
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+          if(friendshipId!='undefined'){
+            const response = await fetch("https://chatapp-server-ghz3.onrender.com/getmessages.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ chatId: friendshipId }),
+            });
+          
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+        
+            if (data.status === "success") {
+              setChatSelected(true);  
+              setMessages(data.messages || []); // Update messages
+            } else {
+              console.error("Error from server:", data.message);
+            }
           }
-      
-          const data = await response.json();
-      
-          if (data.status === "success") {
-            setChatSelected(true);  
-            setChatIdForFetch(friendshipId);
-            setMessages(data.messages || []); // Update messages
-            console.log('DATEEE',data.messages)
-          } else {
-            console.error("Error from server:", data.message);
-          }
-      
-          console.log("Fetched messages:", data);
         } catch (error) {
           console.error("Error fetching messages:", error);
         }
@@ -89,6 +84,7 @@ const Main = () =>{
             const data = await response.json();
             if (data.status === "success") {
               fetchMessages(chatId);
+              console.log(messages);
               setTypingMessage("");
             } else {
               console.error("Error from server:", data.message);
@@ -100,29 +96,36 @@ const Main = () =>{
     const scrollToBottom = () => {
       messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  const setId = (friendshipId) =>{
+    localStorage.setItem('chatId', friendshipId);
+  }
     useEffect(() => {
       scrollToBottom();
   }, [messages]);
     useEffect(() => {
         fetchFriends();
     },[]);
-    //useEffect(() => {
-      //  fetchMessages();
-    //},[chatId]);
     useEffect(() => {
-      fetchMessages(chatIdForFetch); // Fetch messages initially
-      const interval = setInterval(fetchMessages, 3000); // Fetch every 3 seconds
-      return () => clearInterval(interval); // Cleanup on unmount
-  }, [chatIdForFetch]); // Re-run if chatId changes
+      localStorage.setItem('chatId', undefined);
+    },[]);
+    useEffect(() => {
+      const interval = setInterval(() => {
+        const chatIdForFetch = localStorage.getItem('chatId');
+        fetchMessages(chatIdForFetch);
+      }, 3000); // Fetch every 3 seconds
+
+      // Cleanup interval on component unmount
+      return () => clearInterval(interval);
+    }, []);
     return(
         <div className="divGeneralMain">
             <div className="divCentralMain">
                 <div className="chatLeftSide">
-                    <div onClick = {fetchMessages}className='friendDiv'>
+                    <div className='friendDiv'>
                     {friends.map((friend, index) => (
                         <div
                         key={index}
-                        onClick={() => fetchMessages(friend.friendship_id)} // Pass friendshipId
+                        onClick={() => {fetchMessages(friend.friendship_id); setId(friend.friendship_id)}} // Pass friendshipId
                         className="chatlineDiv"
                       >
                         <Chatline
