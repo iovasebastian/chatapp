@@ -1,8 +1,10 @@
 import '../style/main.css';
 import Message from './message';
 import Chatline from './chatline';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 const Main = () =>{
+  const messageEndRef = useRef(null);
+    const chatId = localStorage.getItem('chatId');
     const user = JSON.parse(localStorage.getItem("user"));
     const [friendEmail, setFriendEmail] = useState("");
     const [friends, setFriends] = useState([]);
@@ -94,13 +96,24 @@ const Main = () =>{
             console.error("Error sending message:",typingMessage,user.id, error);
           }
     }
-      
+    const scrollToBottom = () => {
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+    useEffect(() => {
+      scrollToBottom();
+  }, [messages]);
     useEffect(() => {
         fetchFriends();
     },[]);
     //useEffect(() => {
       //  fetchMessages();
     //},[chatId]);
+    useEffect(() => {
+      
+      fetchMessages(); // Fetch messages initially
+      const interval = setInterval(fetchMessages, 3000); // Fetch every 3 seconds
+      return () => clearInterval(interval); // Cleanup on unmount
+  }, [chatId]); // Re-run if chatId changes
     return(
         <div className="divGeneralMain">
             <div className="divCentralMain">
@@ -136,7 +149,7 @@ const Main = () =>{
                             sender = {message.senderId==user.id?true:false}
                             />
                         ))}
-
+                        <div ref={messageEndRef} />
                     </div>
                     {chatselected&&<div className="messageInputDiv">
                         <input className = "inputMessage" value = {typingMessage} type = "text" placeholder='Message...' onChange={(e) => setTypingMessage(e.target.value)}/>
