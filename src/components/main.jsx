@@ -110,7 +110,7 @@ const Main = () =>{
     //},[chatId]);
     useEffect(() => {
       
-      fetchMessages(); // Fetch messages initially
+      fetchMessages(chatId); // Fetch messages initially
       const interval = setInterval(fetchMessages, 3000); // Fetch every 3 seconds
       return () => clearInterval(interval); // Cleanup on unmount
   }, [chatId]); // Re-run if chatId changes
