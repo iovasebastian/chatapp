@@ -9,7 +9,8 @@ const Login = () =>{
     const navigateMain = () =>{
         navigate('/main');
     }
-    const navigateRegister = () =>{
+    const navigateRegister = (e) =>{
+      e.preventDefault();
       navigate('/register');
   }
     const handleChange = (e) => {
