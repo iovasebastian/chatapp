@@ -8,7 +8,7 @@ const Chatline = (props) =>{
     } 
     const handleDelete = async () =>{
         try{
-            const response = await fetch("https://chatapp-server-ghz3.onrender.com/deletefriendship.php", {
+            const response = await fetch("http://localhost:8000/deletefriendship.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({friendshipId : friendshipId}),
@@ -28,7 +28,7 @@ const Chatline = (props) =>{
     const fetchMessages = async (friendshipId) => {
       try {  
         if(friendshipId!='undefined'){
-          const response = await fetch("https://chatapp-server-ghz3.onrender.com/getmessages.php", {
+          const response = await fetch("http://localhost:8000/getmessages.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ chatId: friendshipId }),

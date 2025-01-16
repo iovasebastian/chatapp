@@ -1,14 +1,14 @@
 .messageDivSender,
 .messageDivReceiver {
-  max-width: 70%; /* Limit the width of the message */
-  padding: 12px 16px; /* Add padding for content */
-  margin: 8px 0; /* Space between messages */
-  border-radius: 16px; /* Rounded corners for chat bubbles */
-  font-size: 14px; /* Adjust text size */
-  line-height: 1.5; /* Improve readability */
-  word-wrap: break-word; /* Ensure long words break properly */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  position: relative; /* For arrow styling */
+  max-width: 70%; 
+  padding: 12px 16px;
+  margin: 8px 0;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative; 
   color: #ffffff;
 }
 
@@ -27,7 +27,7 @@
     margin-left:2em;
     max-width: 40%;
     margin-bottom: 1em;
-    background-color: #d1c4e9; /* Muted purple for receiver */
+    background-color: #d1c4e9;
     color: #333333;
 }
 .messageP{
@@ -49,12 +49,12 @@
   border-width: 0 8px 8px 0;
   border-color: transparent #6fff00 transparent transparent;
   top: 0;
-  right: -8px; /* Position the arrow on the right */
+  right: -8px;
 }
 
 .messageDivReceiver::after {
   border-width: 8px 8px 0 0;
   border-color: #f0f0f0 transparent transparent transparent;
   top: 0;
-  left: -8px; /* Position the arrow on the left */
+  left: -8px; 
 }

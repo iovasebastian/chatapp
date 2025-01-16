@@ -1,66 +1,63 @@
-/* Friend Card Container */
 .divChatLine {
     display: flex;
-    flex-direction: column; /* Arrange name, message, and button vertically */
+    flex-direction: column; 
     justify-content: space-between;
-    padding: 0.5em; /* Add padding inside the card */
-    margin-bottom: 12px; /* Space between friend cards */
-    background-color: #ffffff; /* White background for contrast */
-    border: 2px solid #d1c4e9; /* Light purple border */
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    cursor: pointer; /* Indicate interactivity */
-    transition: all 0.3s ease; /* Smooth hover and focus transitions */
+    padding: 0.5em; 
+    margin-bottom: 12px; 
+    background-color: #ffffff; 
+    border: 2px solid #d1c4e9; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    cursor: pointer; 
+    transition: all 0.3s ease;
 }
   
-  /* Hover Effect for Friend Card */
   .divChatLine:hover {
-    border-color: #b388eb; /* Darker purple border on hover */
-    box-shadow: 0 6px 12px rgba(179, 136, 235, 0.3); /* Stronger shadow on hover */
+    border-color: #b388eb; 
+    box-shadow: 0 6px 12px rgba(179, 136, 235, 0.3);
   }
   
   /* Name */
   .divChatLine h3 {
-    font-size: 18px; /* Slightly larger for emphasis */
-    color: #3a3a3a; /* Dark grey for readability */
-    margin: 0; /* Remove default margin */
-    font-weight: bold; /* Make the name stand out */
+    font-size: 18px; 
+    color: #3a3a3a; 
+    margin: 0; 
+    font-weight: bold; 
   }
   
-  /* Last Message */
+ 
   .divChatLine p {
-    font-size: 14px; /* Smaller font size for the last message */
-    color: #666666; /* Medium grey for a softer look */
-    margin: 8px 0 0; /* Space above the message */
-    overflow: hidden; /* Hide overflowing text */
-    white-space: nowrap; /* Prevent wrapping */
-    text-overflow: ellipsis; /* Add ellipsis for long text */
+    font-size: 14px; 
+    color: #666666; 
+    margin: 8px 0 0; 
+    overflow: hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis; 
   }
   
-  /* Delete Button */
   .divChatLine button {
     margin-top:0.5em;
     margin-bottom:0;
-    align-self: flex-start; /* Align the button to the left */
-    padding: 6px 12px; /* Add padding for a better look */
-    background-color: #f44336; /* Red background for delete action */
-    color: white; /* White text for contrast */
-    border: none; /* Remove default border */
-    border-radius: 8px; /* Rounded corners */
-    font-size: 14px; /* Slightly smaller font size */
-    font-weight: bold; /* Make the button text stand out */
-    cursor: pointer; /* Pointer cursor for interactivity */
-    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    align-self: flex-start; 
+    padding: 6px 12px; 
+    background-color: #f44336; 
+    color: white; 
+    border: none; 
+    border-radius: 8px; 
+    font-size: 14px;
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
   }
   
-  /* Hover Effect for Button */
+
   .divChatLine button:hover {
-    background-color: #d32f2f; /* Darker red on hover */
-    box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3); /* Subtle shadow for focus */
+    background-color: #d32f2f; 
+    box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3); 
   }
   
-  /* Button Click Effect */
+
   .divChatLine button:active {
-    transform: scale(0.95); /* Shrink slightly on click */
+    transform: scale(0.95); 
   }
   

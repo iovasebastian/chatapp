@@ -9,7 +9,7 @@ const Register = () =>{
     const handleSubmit = async (e) =>{
         e.preventDefault();
         try{
-        const response = await fetch("https://chatapp-server-ghz3.onrender.com/register.php", {
+        const response = await fetch("http://localhost:8000/register.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({name: name, password:password, email:email}),

@@ -14,7 +14,7 @@ const Main = () =>{
     const handleSubmit = async (e) =>{
         e.preventDefault();
         try {
-            const response = await fetch("https://chatapp-server-ghz3.onrender.com/addfriends.php", {
+            const response = await fetch("http://localhost:8000/addfriends.php", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({friendEmail: friendEmail,userId: user.id}),
@@ -36,13 +36,13 @@ const Main = () =>{
     }
     async function fetchFriends() {
         try {
-          const response = await fetch("https://chatapp-server-ghz3.onrender.com/getfriends.php", {
+          const response = await fetch("http://localhost:8000/getfriends.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId: user.id }),
           });
-          const data = await response.json(); // Parse the response as JSON
-          setFriends(data.friends || []); // Update the state with friends list
+          const data = await response.json();
+          setFriends(data.friends || []); 
         } catch (error) {
           console.error("Error fetching friends:", error);
         }
@@ -50,7 +50,7 @@ const Main = () =>{
     const fetchMessages = async (friendshipId) => {
         try {  
           if(friendshipId!='undefined'){
-            const response = await fetch("https://chatapp-server-ghz3.onrender.com/getmessages.php", {
+            const response = await fetch("http://localhost:8000/getmessages.php", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ chatId: friendshipId }),
@@ -63,7 +63,7 @@ const Main = () =>{
         
             if (data.status === "success") {
               setChatSelected(true);  
-              setMessages(data.messages || []); // Update messages
+              setMessages(data.messages || []);
             } else {
               console.error("Error from server:", data.message);
             }
@@ -77,7 +77,7 @@ const sendMessage = async () =>{
     const chatId = localStorage.getItem('chatId');
         try {   
           if(typingMessage.trim()){  
-            const response = await fetch("https://chatapp-server-ghz3.onrender.com/sendmessage.php", {
+            const response = await fetch("http://localhost:8000/sendmessage.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ messageToSend: typingMessage, chatId: chatId, senderId: user.id }),
@@ -103,8 +103,8 @@ const setId = (friendshipId) =>{
     localStorage.setItem('chatId', friendshipId);
 }
 const handleKeyDown = (e) => {
-  if (e.key === "Enter") { // Check if the pressed key is "Enter"
-      e.preventDefault(); // Prevent the default behavior of Enter (form submission)
+  if (e.key === "Enter") { 
+      e.preventDefault(); 
       sendMessage();
   }
 };
@@ -119,14 +119,14 @@ useEffect(() => {
 },[]);
 useEffect(() => {
   if (chatselected && inputRef.current) {
-    inputRef.current.focus(); // Focus on the input field when chatselected is true
+    inputRef.current.focus();
   }
 }, [chatselected]);
 useEffect(() => {
     const interval = setInterval(() => {
     const chatIdForFetch = localStorage.getItem('chatId');
     fetchMessages(chatIdForFetch);
-    }, 3000); // Fetch every 3 seconds
+    }, 3000);
     return () => clearInterval(interval);
 }, []);
     return(
@@ -137,13 +137,13 @@ useEffect(() => {
                     {friends.map((friend, index) => (
                         <div
                         key={index}
-                        onClick={() => {fetchMessages(friend.friendship_id); setId(friend.friendship_id)}} // Pass friendshipId
+                        onClick={() => {fetchMessages(friend.friendship_id); setId(friend.friendship_id)}} 
                         className="chatlineDiv"
                       >
                         <Chatline
                           name={friend.name}
-                          friendshipId={friend.friendship_id} // Pass friendshipId
-                          lastMessage={friend.lastMessage || "No messages yet"} // Default message
+                          friendshipId={friend.friendship_id}
+                          lastMessage={friend.lastMessage || "No messages yet"} 
                         />
                       </div>
                     ))}
